@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-r#t&_)m#teaariy(8s$3e)+^g9#^w-2&bms38tngg!_dr_=#5_
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Application definition
@@ -38,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'accounts',
+    'userProfile',
 ]
 
 MIDDLEWARE = [
@@ -124,21 +127,22 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sharmasamayar@gmail.com'
+EMAIL_HOST_PASSWORD = 'qqkfmrchrtrrfwof'
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
-DJOSER = {
-    "USER_ID_FIELD": "username",
-    "LOGIN_FIELD": "email",
-    "SEND_ACTIVATION_EMAIL": True,
-    "ACTIVATION_URL": "activate/{uid}/{token}",
-    'SERIALIZERS': {
-        'token_create': 'apps.accounts.serializers.CustomTokenCreateSerializer',
-    },
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ROTATE_REFRESH_TOKENS': False,
 }
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-SITE_NAME = "MedTracker"

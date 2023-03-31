@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+# from myapi.core import views
 
 urlpatterns = [
     path('', ProfileView.as_view()),

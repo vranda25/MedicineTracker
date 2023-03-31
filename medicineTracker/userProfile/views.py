@@ -13,8 +13,8 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class ProfileView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         user = request.user
